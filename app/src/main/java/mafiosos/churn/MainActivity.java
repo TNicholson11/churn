@@ -13,8 +13,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.net.Uri;
 
-public class MainActivity extends FragmentActivity implements ActionBar.TabListener {
+public class MainActivity extends FragmentActivity implements ActionBar.TabListener, CalendarSectionFragment.OnFragmentInteractionListener {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide fragments for each of the
@@ -74,6 +75,10 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         }
     }
 
+    public void onFragmentInteraction(Uri uri) {
+
+    }
+
     @Override
     public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
     }
@@ -92,7 +97,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to one of the primary
      * sections of the app.
      */
-    public static class AppSectionsPagerAdapter extends FragmentPagerAdapter {
+    public class AppSectionsPagerAdapter extends FragmentPagerAdapter {
 
         public AppSectionsPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -102,15 +107,21 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         public Fragment getItem(int i) {
             switch (i) {
                 case 0:
+                    // The profile section displays general user information
                     return new ProfileSectionFragment();
 
                 case 1:
-                    // The first section of the app is the most interesting -- it offers
-                    // a launchpad into the other demonstrations in this example application.
-                    return new LaunchpadSectionFragment();
+                    // The cards section displays all of the user's currently entered cards
+                    // including all information pertaining to each card
+                    return new CardsSectionFragment();
+
+                case 2:
+                    // The calendar section displays a CalendarView with important dates
+                    // and other pertinent information regarding user cards, deals or travel
+                    return new CalendarSectionFragment();
 
                 default:
-                    // The other sections of the app are dummy placeholders.
+                    // Any other sections of the app are dummy placeholders.
                     Fragment fragment = new DummySectionFragment();
                     Bundle args = new Bundle();
                     args.putInt(DummySectionFragment.ARG_SECTION_NUMBER, i + 1);
@@ -134,7 +145,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                     return "My Cards";
 
                 case 2:
-                    return "Calendar";
+                    return "My Calendar";
 
                 default:
                     return "";
@@ -154,9 +165,9 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     }
 
     /**
-     * A fragment that launches other parts of the demo application.
+     * A fragment that launches the user credit cards portion of the application
      */
-    public static class LaunchpadSectionFragment extends Fragment {
+    public static class CardsSectionFragment extends Fragment {
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -168,7 +179,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                     .setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            Intent intent = new Intent(getActivity(), CollectionDemoActivity.class);
+                            Intent intent = new Intent(getActivity(), CardCollectionActivity.class);
                             startActivity(intent);
                         }
                     });
@@ -204,7 +215,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_section_dummy, container, false);
+            View rootView = inflater.inflate(R.layout.fragment_section_calendar, container, false);
             Bundle args = getArguments();
             ((TextView) rootView.findViewById(android.R.id.text1)).setText(
                     getString(R.string.dummy_section_text, args.getInt(ARG_SECTION_NUMBER)));

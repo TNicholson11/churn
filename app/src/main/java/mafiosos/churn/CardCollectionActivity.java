@@ -32,7 +32,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-public class CollectionDemoActivity extends FragmentActivity {
+public class CardCollectionActivity extends FragmentActivity {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide fragments representing
@@ -138,7 +138,7 @@ public class CollectionDemoActivity extends FragmentActivity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_collection_object, container, false);
+            View rootView = inflater.inflate(R.layout.fragment_collection_card, container, false);
             Bundle args = getArguments();
             ((TextView) rootView.findViewById(android.R.id.text1)).setText(
                     Integer.toString(args.getInt(ARG_OBJECT)));
